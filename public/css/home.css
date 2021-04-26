@@ -1,0 +1,13 @@
+.topnav {
+    background-color: aqua;
+    overflow: hidden;
+    text-transform: capitalize;
+}
+
+.topnav a {
+    float: left;
+    color: blue;
+    text-align: center;
+    padding: 10px 12 px;
+    font-size: 16px;
+}
