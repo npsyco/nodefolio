@@ -1,25 +1,8 @@
 
-<br><br>
-
-
-<div class="container">  
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <form id="contact" action="/sendemail" method="post">
-      <h3>Contact Form</h3>
-      <fieldset>
-        <input placeholder="Your name" type="text" tabindex="1" name="name" required autofocus >
-      </fieldset>
-      <fieldset>
-        <input placeholder="Your Email Address" type="email" tabindex="2" name="email" required>
-      </fieldset>
-      <fieldset>
-        <input placeholder="Your Phone Number (optional)" type="tel" tabindex="3" name="phonenumber" required>
-      </fieldset>
-      <fieldset>
-        <textarea placeholder="Type your message here...." tabindex="5" name="message" required></textarea>
-      </fieldset>
-      <fieldset>
-          <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
-      </fieldset>
+<form method="POST" action="/api/contact">
+      <input type="text" id="name" name="name" placeholder="Name" required/> <br />
+      <input type="text" id="subject" name="subject" placeholder="Subject" required/> <br />
+      <input type="email" id="email" name="email" placeholder="Your email" required/> <br />
+      <textarea name="text" id="text" name="text" cols="30" rows="10" required></textarea> <br />
+      <input type="submit" value="Submit" />
     </form>
-  </div>

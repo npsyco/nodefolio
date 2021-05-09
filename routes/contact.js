@@ -1,45 +1,40 @@
 const router = require("express").Router();
 const nodemailer = require("nodemailer");
-require('dotenv').config();
-
+const { log } = console;
+// Enables using .env file for personalized input (ie. email address and password) without sharing - please create a .env file and insert your own credentials 
+require("dotenv").config();
 const bodyParser = require("body-parser");
+
 router.use(bodyParser.urlencoded({ extended: true }));
 
+
+let transport = nodemailer.createTransport({
+    service: process.env.MAIL_HOST,
+    auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS
+    }
+});
+
 router.post("/api/contact", (req, res) => {
-    const mailOptions = {
+    let mailOptions = {
         from: `"${req.body.name}" <${req.body.email}>`,
-        to: 'christian.nymark@gmail.com',
+        to: process.env.MAIL_USER,
         subject: req.body.subject,
-        html:req.body.message
-        };
-});
+        text: req.body.text
+    };
 
+    transport.sendMail(mailOptions, (error, data) => {
+        if(error) {
+            return log(error);         
+        }
+        log('mail sent: ', data.messageId)
+    });
 
-// Nodemailer
-
-const mailtrans = mailer.createTransport({
-    service: 'gmail',    
-    /* host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, */
-    
-auth: {
-    //type: '0A',
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS
-}
-});
-
-
-
-mailtrans.sendMail(mailOptions, function(error, info){
-if(error) {
-    console.log(error);
-} else {
-    console.log('Mail sent:' + info.response);
-    res.send("Mail sent");
-}
-});
+    setTimeout(() => {
+        res.redirect("/");
+    }, 2500);
+})
 
 
 module.exports = {

@@ -1,36 +1,27 @@
-// fetch("/api/projects").then(res => res.json()).then(console.log);
+const { log } = console;
 
 (async function getProjects() {
     try {
-        const response = await fetch("/api/projects");
-        const result = await response.json();
 
-        const projectsDiv = document.getElementById("projects");
-        
-        result.projects.map(project => {
-            const projectDiv = document.createElement("div");
+        $.ajax({
+            method: "GET",
+            url: '/api/projects',
+            dataType: 'json'
+        }).done(function(data) {
 
-            const titleHeader = document.createElement("h2");
-            titleHeader.classList.add("project-title");
-            titleHeader.innerText = project.title;
+            $.each(data, function(i, projects) {
 
-            const descriptionP = document.createElement("p");
-            descriptionP.classList.add("project-description");
-            descriptionP.innerText = project.description;
-
-            projectDiv.appendChild(titleHeader);
-            projectDiv.appendChild(descriptionP);
-            projectsDiv.appendChild(projectDiv);
-        });
-
-        /* 
-        show the result on the page...  
-        do it in a scalable way that works even if you add new projects 
-        */
-
+                projects.forEach(function(value) {
+                    $('<div class="card-size">').appendTo("#projects")
+                    .append($("<h1></h1>").text(value.title))
+                    .append($("<h2></h2>").text(value.description))
+                    
+                });
+            });
+        })
 
     } catch (error) {
-        console.log(error);
+        log(error);
     }
-})();
 
+})();
